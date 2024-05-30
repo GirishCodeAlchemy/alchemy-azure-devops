@@ -1,5 +1,5 @@
 trigger:
-- main  # or any other branch you want to sync
+- main
 
 pool:
   vmImage: 'ubuntu-latest'
