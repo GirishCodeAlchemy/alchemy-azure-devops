@@ -21,7 +21,7 @@ resources:
       type: github
       name: GirishCodeAlchemy/alchemy-azure-devops
       ref: main
-      endpoint: DSO-Github
+      endpoint: alchemy-azure-devops
 pool:
   vmImage: ubuntu-latest
 
