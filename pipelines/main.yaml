@@ -1,0 +1,119 @@
+# Trigger the pipeline on changes to the main branch
+trigger:
+    branches:
+        include:
+        - main
+    tags:
+      include:
+        - v*
+pr:
+  drafts: false
+  branches:
+    include:
+      - main
+      - dev
+      - feature/*
+      - fix/*
+
+resources:
+  repositories:
+    - repository: templates
+      type: github
+      name: GirishCodeAlchemy/alchemy-azure-devops
+      ref: main
+      # endpoint: 
+pool:
+  vmImage: ubuntu-latest
+
+stages:
+    - stage: SetVariables
+        jobs:
+          - job: Get_Alchemy_Version
+            steps:
+              - checkout: self
+                clean: true
+                fetchDepth: 0
+                persistCredentails: true
+              - script: |
+                  git fetch --tags
+                displayName: Fetch tags
+              - script: |
+                  pip install hatch versioningit
+                  PACKAGE_VERSION=$(hatch version | sed "s/\.dev0//")
+                  echo "##vso[task.setvariable variable=PACKAGE_VERSION;isOutput=true]$PACKAGE_VERSION"
+                displayName: set variable PACKAGE_VERSION
+    - stage: CodeQuality
+      jobs:
+        - job: Black
+          steps:
+            - template: code_quality/black.yaml@templates
+              parameters:
+                BLACK_ARGS: '--check --diff'
+        - job: Pydocstyle
+          steps:
+            - template: code_quality/pydocstyle.yaml@templates
+              parameters:
+                SOURCE_FOLDER: .
+    - stage: Tests
+      dependsOn: CodeQuality
+      jobs:
+        - job: Tests_and_SonarQube
+          displayName: Tests + Sonarqube
+          pool:
+            vmImage: 'ubuntu-latest'
+          strategy:
+            matrix:
+              Python3.10:
+                pythonVersion: '3.10'   
+              Python3.11:
+                pythonVersion: '3.11' 
+              Python3.12:
+                pythonVersion: '3.12'
+          steps:
+            - templates: misc/checkout_package.yamls@templates
+          steps:
+            # Checkout the package from the repository
+            - template: misc/checkout_package.yaml@templates
+              parameters:
+                package: alchemy
+
+            # Fetch all tags from the repository
+            - script: |
+                git fetch --tags
+              displayName: Fetch tags
+
+            # Set up Python environment
+            - template: misc/setup_python.yaml@templates
+
+            # Install the alchemy package
+            - script: |
+                pip install $(Pipeline.Workspace)/alchemy
+              displayName: Install Alchemy
+
+            # Run tests for the alchemy package
+            - template: tests/tests.yaml@templates
+              parameters:
+                package: alchemy
+                testFolder: tests
+                testCategory: tests
+
+            # Run SonarQube code quality analysis
+            - template: code_quality/sonarqube.yaml@templates
+              parameters:
+                SonarQube: dso-sonarqube-alchemy
+                cliProjectKey: dso-alchemy
+                sonarqubePythonVersion: '3.10'
+
+    - stage: PythonPackage
+      variables:
+        # Define the package version
+        PACKAGE_VERSION: $[stageDependencies.create_variables_stage.create_variables_job.outputs['ADO_variables.PACKAGE_VERSION']]
+        # Define the repository name
+        REPOSITORY_NAME: GirishCodeAlchemy/alchemy
+      condition: and(succeeded(), startsWith(variables['Build.SourceBranch'], 'refs/tags/v'))
+      dependsOn:
+        - CodeQuality
+        - Tests
+      jobs:
+        # Build the Python package
+        - template: build/python_package.yaml@templates
