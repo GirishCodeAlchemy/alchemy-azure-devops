@@ -70,8 +70,6 @@ stages:
             Python3.12:
               pythonVersion: '3.12'
         steps:
-          - templates: misc/checkout_package.yamls@templates
-        steps:
           # Checkout the package from the repository
           - template: misc/checkout_package.yaml@templates
             parameters:
