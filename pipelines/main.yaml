@@ -53,7 +53,7 @@ stages:
         steps:
           - template: code_quality/pydocstyle.yaml@templates
             parameters:
-              SOURCE_FOLDER: .
+              SOURCE_FOLDER: alchemy
   - stage: Tests
     dependsOn: CodeQuality
     jobs:
