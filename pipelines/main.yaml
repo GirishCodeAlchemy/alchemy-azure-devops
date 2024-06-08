@@ -33,7 +33,7 @@ stages:
           - checkout: self
             clean: true
             fetchDepth: 0
-            persistCredentails: true
+            persistCredentials: true
           - script: |
               git fetch --tags
             displayName: Fetch tags
