@@ -19,7 +19,7 @@ resources:
   repositories:
     - repository: templates
       type: github
-      name: GirishCodeAlchemy/alchemy-azure-devops
+      name: GirishCodeAlchemy/alchemy_azure_pipeline_template
       ref: main
       endpoint: GirishCodeAlchemy
 pool:
@@ -53,7 +53,7 @@ stages:
         steps:
           - template: code_quality/pydocstyle.yaml@templates
             parameters:
-              SOURCE_FOLDER: alchemy
+              SOURCE_FOLDER: "alchemy"
   - stage: Tests
     dependsOn: CodeQuality
     jobs:
