@@ -15,13 +15,13 @@ pr:
       - feature/*
       - fix/*
 
-resources:
-  repositories:
-    - repository: templates
-      type: github
-      name: GirishCodeAlchemy/alchemy-azure-devops
-      ref: main
-      endpoint: alchemy-azure-devops
+# resources:
+#   repositories:
+#     - repository: templates
+#       type: github
+#       name: GirishCodeAlchemy/alchemy-azure-devops
+#       ref: main
+#       endpoint: alchemy-azure-devops
 pool:
   vmImage: ubuntu-latest
 
