@@ -3,6 +3,7 @@ import sys
 from datetime import datetime
 import alchemy
 
+
 def main(args=None):
     """CLI entry Point."""
     parser = argparser.ArgumentParser()
@@ -59,6 +60,7 @@ def main(args=None):
         print(alchemy.__version__)
     else:
         print(f"Unknown command: {args.command}.")
+
 
 if __name__ == "__main__":
     main()
