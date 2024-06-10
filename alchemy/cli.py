@@ -1,4 +1,5 @@
-"""Alchemy CLI"""
+"""Alchemy CLI Package."""
+
 import sys
 from datetime import datetime
 
@@ -67,4 +68,3 @@ def main(args=None):
 
 if __name__ == "__main__":
     main()
-
