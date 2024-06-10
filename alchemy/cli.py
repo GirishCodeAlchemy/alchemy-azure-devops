@@ -1,6 +1,9 @@
-import argparser
+"""Alchemy CLI"""
 import sys
 from datetime import datetime
+
+import argparser
+
 import alchemy
 
 
@@ -63,4 +66,7 @@ def main(args=None):
 
 
 if __name__ == "__main__":
+    main()
+if __name__ == "__main__":
+    main()
     main()
