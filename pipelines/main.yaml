@@ -64,11 +64,11 @@ stages:
         strategy:
           matrix:
             Python3.10:
-              PYTHON_VERSION: '3.10'   
+              pythonVersion: '3.10'   
             Python3.11:
-              PYTHON_VERSION: '3.11' 
+              pythonVersion: '3.11' 
             Python3.12:
-              PYTHON_VERSION: '3.12'
+              pythonVersion: '3.12'
         steps:
           # Checkout the package from the repository
           - template: misc/checkout_package.yaml@templates
