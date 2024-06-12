@@ -1,18 +1,17 @@
 """Alchemy CLI Package."""
 
+import argparse
 import sys
 from datetime import datetime
-
-import argparser
 
 import alchemy
 
 
 def main(args=None):
     """CLI entry Point."""
-    parser = argparser.ArgumentParser()
-    subparsers.add_parser("version")
+    parser = argparse.ArgumentParser()
     subparsers = parser.add_subparsers(title="Subcommands", dest="command")
+    subparsers.add_parser("version")
 
     export_data_parser = subparsers.add_parser("export_data")
     export_data_parser.add_argument(
@@ -58,7 +57,7 @@ def main(args=None):
     args = parser.parse_args(args if args is not None else sys.argv[1:])
     if args.command == "export_data":
         print("Invoke export code", args.output)
-    elif args.command == "filter":
+    elif args.command == "filter_data":
         print("Invoke filter")
     elif args.command == "version":
         print(alchemy.__version__)
