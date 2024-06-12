@@ -80,7 +80,7 @@ stages:
               git fetch --tags
             displayName: Fetch tags
 
-          # Set up Python environment
+          # Set up Python environment for running test
           - template: misc/setup_python.yaml@templates
 
           # Install the alchemy package
