@@ -107,7 +107,7 @@ stages:
       # Define the package version
       PACKAGE_VERSION: $[stageDependencies.create_variables_stage.create_variables_job.outputs['ADO_variables.PACKAGE_VERSION']]
       # Define the repository name
-      REPOSITORY_NAME: GirishCodeAlchemy/alchemy
+      REPOSITORY_NAME: GirishCodeAlchemy/alchemy-azure-devops
     condition: and(succeeded(), startsWith(variables['Build.SourceBranch'], 'refs/tags/v'))
     dependsOn:
       - CodeQuality
