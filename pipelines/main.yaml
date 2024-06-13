@@ -95,23 +95,23 @@ stages:
               testFolder: tests
               testCategory: tests
 
-          # Run SonarQube code quality analysis
-          - template: code_quality/sonarqube.yaml@templates
-            parameters:
-              SonarQube: dso-sonarqube-alchemy
-              cliProjectKey: dso-alchemy
-              sonarqubePythonVersion: '3.10'
+          # # Run SonarQube code quality analysis
+          # - template: code_quality/sonarqube.yaml@templates
+          #   parameters:
+          #     SonarQube: dso-sonarqube-alchemy
+          #     cliProjectKey: dso-alchemy
+          #     sonarqubePythonVersion: '3.10'
 
-  # - stage: PythonPackage
-  #   variables:
-  #     # Define the package version
-  #     PACKAGE_VERSION: $[stageDependencies.create_variables_stage.create_variables_job.outputs['ADO_variables.PACKAGE_VERSION']]
-  #     # Define the repository name
-  #     REPOSITORY_NAME: GirishCodeAlchemy/alchemy
-  #   condition: and(succeeded(), startsWith(variables['Build.SourceBranch'], 'refs/tags/v'))
-  #   dependsOn:
-  #     - CodeQuality
-  #     - Tests
-  #   jobs:
-  #     # Build the Python package
-  #     - template: build/python_package.yaml@templates
+  - stage: PythonPackage
+    variables:
+      # Define the package version
+      PACKAGE_VERSION: $[stageDependencies.create_variables_stage.create_variables_job.outputs['ADO_variables.PACKAGE_VERSION']]
+      # Define the repository name
+      REPOSITORY_NAME: GirishCodeAlchemy/alchemy
+    condition: and(succeeded(), startsWith(variables['Build.SourceBranch'], 'refs/tags/v'))
+    dependsOn:
+      - CodeQuality
+      - Tests
+    jobs:
+      # Build the Python package
+      - template: build/python_package.yaml@templates
