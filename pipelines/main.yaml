@@ -95,12 +95,12 @@ stages:
               testFolder: tests
               testCategory: tests
 
-          # # Run SonarQube code quality analysis
-          # - template: code_quality/sonarqube.yaml@templates
-          #   parameters:
-          #     SonarQube: dso-sonarqube-alchemy
-          #     cliProjectKey: dso-alchemy
-          #     sonarqubePythonVersion: '3.10'
+          # Run SonarQube code quality analysis
+          - template: code_quality/sonarqube.yaml@templates
+            parameters:
+              SonarQube: dso-sonarqube-alchemy
+              cliProjectKey: dso-alchemy
+              sonarqubePythonVersion: '3.10'
 
   # - stage: PythonPackage
   #   variables:
