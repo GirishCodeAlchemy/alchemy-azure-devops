@@ -23,6 +23,22 @@ parameters:
       - Debug
       - Release
 
+  - name: tfVersion
+    displayName: Tf Version
+    type: string
+    default: 1.5.5
+    values:
+      - 1.5.5
+      - 1.5.6
+
+  - name: GCPBackendBucketName
+    displayName: GCP Backend Bucket Name
+    type: string
+    default: test
+    values:
+      - test
+      - dev
+
 stages:
   - stage: Build
     displayName: Build Stage
